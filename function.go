@@ -25,9 +25,8 @@ var (
 func initFunctionSqlTemplate() *template.Template {
 	sql := `
     SELECT n.nspname                 AS schema_name
-        , {{if eq $.DbSchema "*" }}n.nspname || '.' || {{end}}p.proname AS compare_name
+        , {{if eq $.DbSchema "*" }}n.nspname || '.' || {{end}}p.oid::regprocedure AS compare_name
         , p.proname                  AS function_name
-        , p.oid::regprocedure        AS fancy
         , t.typname                  AS return_type
         , pg_get_functiondef(p.oid)  AS definition
     FROM pg_proc AS p
